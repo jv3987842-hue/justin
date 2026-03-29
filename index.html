@@ -31,7 +31,6 @@
     position: relative;
   }
 
-  /* ── floating hearts background ── */
   .bg-hearts { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
   .bh {
     position: absolute;
@@ -46,7 +45,6 @@
     100% { opacity: 0; transform: translateY(-10vh) rotate(360deg) scale(1.2); }
   }
 
-  /* ── page wrapper ── */
   .page {
     position: relative; z-index: 1;
     width: min(100%, 390px);
@@ -57,7 +55,6 @@
     gap: 20px;
   }
 
-  /* ── top label ── */
   .label {
     font-family: 'Playfair Display', serif;
     font-style: italic;
@@ -67,7 +64,6 @@
     opacity: .75;
   }
 
-  /* ── envelope shell ── */
   .envelope-wrap {
     width: 100%;
     perspective: 900px;
@@ -82,7 +78,6 @@
   }
   .envelope:hover:not(.opened) { transform: scale(1.03) rotate(-1deg); }
 
-  /* body */
   .env-body {
     position: absolute; inset: 0;
     background: linear-gradient(160deg, #fce8ee 0%, #f9d0dc 100%);
@@ -90,7 +85,6 @@
     box-shadow: 0 12px 40px #c0395a30, 0 2px 8px #e8718a28;
     overflow: hidden;
   }
-  /* diagonal side flaps */
   .env-body::before, .env-body::after {
     content: '';
     position: absolute;
@@ -102,7 +96,6 @@
   .env-body::before { left: 0;  clip-path: polygon(0 0, 0 100%, 100% 100%); }
   .env-body::after  { right: 0; clip-path: polygon(100% 0, 0 100%, 100% 100%); }
 
-  /* bottom v-fold */
   .env-bottom {
     position: absolute; bottom: 0; left: 0; right: 0;
     height: 52%;
@@ -111,7 +104,6 @@
     border-radius: 0 0 16px 16px;
   }
 
-  /* top flap (folds down when opened) */
   .env-flap {
     position: absolute; top: 0; left: 0; right: 0;
     height: 52%;
@@ -123,7 +115,6 @@
     border-radius: 8px 8px 0 0;
     box-shadow: 0 4px 12px #e8718a20;
   }
-  /* wax seal */
   .seal {
     position: absolute;
     top: 50%; left: 50%;
@@ -138,14 +129,12 @@
     transition: transform .4s ease, opacity .3s ease;
   }
 
-  /* ── opened state ── */
   .envelope.opened .env-flap {
     transform: rotateX(-175deg);
     clip-path: polygon(0 0, 50% 72%, 100% 0);
   }
   .envelope.opened .seal { transform: translate(-50%, -50%) scale(0); opacity: 0; }
 
-  /* letter peeking out */
   .letter-peek {
     position: absolute;
     left: 8%; right: 8%;
@@ -164,7 +153,6 @@
     transform: translateY(-38%) scaleY(1);
   }
 
-  /* letter top decoration */
   .letter-peek::before {
     content: '';
     position: absolute; top: 0; left: 0; right: 0;
@@ -174,14 +162,12 @@
     z-index: 2;
   }
 
-  /* ── letter-peek inner canvas ── */
   .peek-inner {
     position: absolute; inset: 0;
     overflow: hidden;
     background: linear-gradient(180deg, #fff5f7 0%, #fde8ec 100%);
   }
 
-  /* shimmer sweep */
   .peek-inner::after {
     content: '';
     position: absolute; inset: 0;
@@ -194,7 +180,6 @@
     100% { background-position: -200% 0; }
   }
 
-  /* SVG heart draw */
   .peek-heart {
     position: absolute;
     top: 50%; left: 50%;
@@ -221,7 +206,6 @@
     0%   { stroke-dashoffset: 220; }
     100% { stroke-dashoffset: 0; }
   }
-  /* heart fill pulse after draw */
   .peek-heart .hfill {
     fill: var(--blush);
     opacity: 0;
@@ -235,22 +219,20 @@
     100% { opacity: .45; }
   }
 
-  /* floating petals inside peek */
   .peek-petal {
     position: absolute;
-    font-size: 11px;
+    font-size: 13px;
     opacity: 0;
     animation: petalDrift linear infinite;
     pointer-events: none;
   }
   @keyframes petalDrift {
-    0%   { opacity:0; transform: translateY(110%) rotate(0deg) scale(.6); }
-    15%  { opacity:.7; }
-    85%  { opacity:.5; }
-    100% { opacity:0; transform: translateY(-20px) rotate(270deg) scale(1.1); }
+    0%   { opacity:0; transform: translateY(110%) rotate(0deg) scale(.5); }
+    12%  { opacity:.85; }
+    88%  { opacity:.6; }
+    100% { opacity:0; transform: translateY(-15px) rotate(300deg) scale(1.2); }
   }
 
-  /* twinkling stars */
   .peek-star {
     position: absolute;
     font-size: 9px;
@@ -259,19 +241,78 @@
     pointer-events: none;
   }
   @keyframes twinkle {
-    0%,100% { opacity:0; transform: scale(.5) rotate(0deg); }
-    50%      { opacity:.9; transform: scale(1.3) rotate(30deg); }
+    0%,100% { opacity:0; transform: scale(.4) rotate(0deg); }
+    50%      { opacity:1; transform: scale(1.4) rotate(40deg); }
   }
 
-  /* couple silhouette */
+  /* orbiting flower ring */
+  .orbit-ring {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 110px; height: 110px;
+    margin: -55px 0 0 -55px;
+    pointer-events: none;
+    animation: spinOrbit 8s linear infinite;
+    opacity: 0;
+    transition: opacity .5s ease;
+  }
+  .envelope.opened .orbit-ring { opacity: 1; }
+  @keyframes spinOrbit { 0%{transform:rotate(0deg)} 100%{transform:rotate(360deg)} }
+  @keyframes counterSpin { 0%{transform:rotate(0deg)} 100%{transform:rotate(-360deg)} }
+
+  .orbit-item {
+    position: absolute;
+    font-size: 13px;
+    transform-origin: 55px 55px;
+  }
+
+  /* bouncing mini hearts scattered */
+  .scatter-heart {
+    position: absolute;
+    font-size: 12px;
+    opacity: 0;
+    pointer-events: none;
+    animation: scatterFloat ease-in-out infinite;
+  }
+  @keyframes scatterFloat {
+    0%,100% { opacity:0; transform: translateY(0) scale(.7); }
+    30%      { opacity:.9; }
+    50%      { transform: translateY(-12px) scale(1); }
+    70%      { opacity:.8; }
+  }
+
+  /* interactive click-spawn particle */
+  .click-particle {
+    position: absolute;
+    pointer-events: none;
+    font-size: 16px;
+    animation: burstOut .8s ease forwards;
+    z-index: 20;
+  }
+  @keyframes burstOut {
+    0%   { opacity:1; transform: translate(0,0) scale(.5) rotate(0deg); }
+    60%  { opacity:.9; }
+    100% { opacity:0; transform: translate(var(--dx), var(--dy)) scale(1.3) rotate(var(--dr)); }
+  }
+
+  /* canvas for interactive particles */
+  #peekCanvas {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    pointer-events: all;
+    z-index: 15;
+    cursor: crosshair;
+  }
+
   .peek-couple {
     position: absolute;
     bottom: 8px; left: 50%;
     transform: translateX(-50%);
-    font-size: 1.5rem;
+    font-size: 1.6rem;
     opacity: 0;
     animation: none;
-    filter: drop-shadow(0 2px 4px #e8718a50);
+    filter: drop-shadow(0 2px 5px #e8718a60);
+    z-index: 16;
   }
   .envelope.opened .peek-couple {
     animation: coupleAppear .6s 2s ease forwards;
@@ -281,10 +322,9 @@
     100% { opacity:1; transform: translateX(-50%) translateY(0) scale(1); }
   }
 
-  /* "forever" text */
   .peek-text {
     position: absolute;
-    top: 10px; left: 0; right: 0;
+    top: 8px; left: 0; right: 0;
     text-align: center;
     font-family: 'Playfair Display', serif;
     font-style: italic;
@@ -293,6 +333,7 @@
     letter-spacing: .12em;
     opacity: 0;
     animation: none;
+    z-index: 16;
   }
   .envelope.opened .peek-text {
     animation: textFade .8s 2.3s ease forwards;
@@ -302,7 +343,25 @@
     100% { opacity:.85; transform: translateY(0); }
   }
 
-  /* ── instruction text ── */
+  /* hint tap label inside peek */
+  .peek-tap-hint {
+    position: absolute;
+    bottom: 28px; left: 0; right: 0;
+    text-align: center;
+    font-family: 'Lato', sans-serif;
+    font-size: .52rem;
+    color: var(--rose);
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    opacity: 0;
+    z-index: 17;
+    pointer-events: none;
+    animation: none;
+  }
+  .envelope.opened .peek-tap-hint {
+    animation: textFade .8s 2.8s ease forwards;
+  }
+
   .hint {
     font-size: .82rem;
     color: var(--sub);
@@ -313,7 +372,6 @@
   }
   @keyframes pulse { 0%,100%{opacity:.5} 50%{opacity:1} }
 
-  /* ── message card ── */
   .message-card {
     width: 100%;
     background: var(--cream);
@@ -382,7 +440,6 @@
     color: var(--sub);
   }
 
-  /* ── buttons row ── */
   .btn-row {
     display: flex; gap: 10px;
     width: 100%;
@@ -432,7 +489,6 @@
   }
   .btn-secondary:hover { transform: translateY(-2px); background: #fce4ec; }
 
-  /* ── confetti burst ── */
   .confetti-wrap { position: fixed; inset: 0; pointer-events: none; z-index: 50; overflow: hidden; }
   .cf {
     position: absolute;
@@ -445,7 +501,6 @@
     100% { opacity: 0; transform: var(--tx) rotate(540deg) scale(.4); }
   }
 
-  /* ── sparkle burst on open ── */
   @keyframes sparkle {
     0%   { opacity: 1; transform: translate(-50%,-50%) scale(0) rotate(0deg); }
     50%  { opacity: 1; transform: translate(-50%,-50%) scale(1.4) rotate(180deg); }
@@ -460,20 +515,62 @@
     font-size: 2rem;
     animation: sparkle .8s ease forwards;
   }
+
+  /* hug animation overlay */
+  .hug-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    z-index: 60;
+  }
+  .hug-emoji {
+    font-size: 5rem;
+    opacity: 0;
+    transform: scale(0.3);
+    animation: hugPop 1.2s ease forwards;
+  }
+  @keyframes hugPop {
+    0%   { opacity: 0; transform: scale(0.3) rotate(-15deg); }
+    30%  { opacity: 1; transform: scale(1.3) rotate(5deg); }
+    55%  { transform: scale(0.95) rotate(-3deg); }
+    70%  { transform: scale(1.1) rotate(2deg); }
+    85%  { opacity: 1; transform: scale(1) rotate(0deg); }
+    100% { opacity: 0; transform: scale(1.2) rotate(0deg); }
+  }
+  .hug-text {
+    position: fixed;
+    top: 58%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 1.1rem;
+    color: var(--deep);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 61;
+    white-space: nowrap;
+    animation: hugTextFade 1.2s .2s ease forwards;
+  }
+  @keyframes hugTextFade {
+    0%   { opacity: 0; transform: translateX(-50%) translateY(8px); }
+    30%  { opacity: 1; transform: translateX(-50%) translateY(0); }
+    80%  { opacity: 1; }
+    100% { opacity: 0; }
+  }
 </style>
 </head>
 <body>
 
-<!-- Floating hearts background -->
 <div class="bg-hearts" id="bgHearts"></div>
-
-<!-- Confetti wrapper -->
 <div class="confetti-wrap" id="confetti"></div>
 
 <div class="page">
   <span class="label">✦ a little something for you ✦</span>
 
-  <!-- Envelope -->
   <div class="envelope-wrap">
     <div class="envelope" id="envelope" onclick="openEnvelope()">
       <div class="env-body"></div>
@@ -481,11 +578,17 @@
       <div class="letter-peek" id="letterPeek">
         <div class="peek-inner" id="peekInner">
           <div class="peek-text">✦ forever &amp; always ✦</div>
+          <!-- interactive click canvas -->
+          <canvas id="peekCanvas"></canvas>
+          <!-- orbiting flower ring -->
+          <div class="orbit-ring" id="orbitRing"></div>
+          <!-- central heart SVG -->
           <svg class="peek-heart" viewBox="0 0 80 72" xmlns="http://www.w3.org/2000/svg">
             <path class="hfill" d="M40 64 C20 50, 4 38, 4 22 C4 12, 12 4, 22 4 C30 4, 37 9, 40 15 C43 9, 50 4, 58 4 C68 4, 76 12, 76 22 C76 38, 60 50, 40 64Z"/>
             <path d="M40 64 C20 50, 4 38, 4 22 C4 12, 12 4, 22 4 C30 4, 37 9, 40 15 C43 9, 50 4, 58 4 C68 4, 76 12, 76 22 C76 38, 60 50, 40 64Z"/>
           </svg>
           <div class="peek-couple">👫</div>
+          <div class="peek-tap-hint">✦ tap to bloom ✦</div>
         </div>
       </div>
       <div class="env-flap"></div>
@@ -495,7 +598,6 @@
 
   <span class="hint" id="hintText">tap the envelope to open</span>
 
-  <!-- Message card -->
   <div class="message-card" id="msgCard">
     <div class="mc-header">
       <span class="mc-icon">💗</span>
@@ -511,18 +613,16 @@
       No words are big enough to hold how much I love you — but know this:
       <span class="highlight">you are my everything</span>, today and always. 🌸
     </p>
-    <div class="mc-footer">— maq 💕</div>
+    <div class="mc-footer">— jo 💕</div>
   </div>
 
-  <!-- Buttons -->
   <div class="btn-row" id="btnRow">
     <button class="btn btn-secondary" onclick="sendKiss()">🌸 Send a Kiss</button>
-    <button class="btn btn-primary" onclick="replayEnvelope()">💌 Read Again</button>
+    <button class="btn btn-primary" onclick="sendHug()">🤗 Send a Hug</button>
   </div>
 </div>
 
 <script>
-  /* ── background floating hearts ── */
   const bgEl = document.getElementById('bgHearts');
   const EMOJIS = ['💗','💕','🌸','✦','💖','🌷','✿','💓'];
   for (let i = 0; i < 22; i++) {
@@ -538,37 +638,170 @@
     bgEl.appendChild(s);
   }
 
-  /* ── peek inner: petals + stars ── */
   const peekInner = document.getElementById('peekInner');
-  const PETALS = ['🌸','🌷','✿','❀','🌺'];
+  const PETALS = ['🌸','🌷','🌺','🌼','💐'];
+  const HEARTS  = ['💗','💖','💕','💓','❤️'];
   const STARS  = ['✦','✧','⋆','·','✩'];
-  for (let i = 0; i < 10; i++) {
+
+  /* floating petals */
+  for (let i = 0; i < 14; i++) {
     const p = document.createElement('span');
     p.className = 'peek-petal';
-    p.textContent = PETALS[Math.floor(Math.random()*PETALS.length)];
+    p.textContent = Math.random() > 0.5 ? PETALS[Math.floor(Math.random()*PETALS.length)] : HEARTS[Math.floor(Math.random()*HEARTS.length)];
     p.style.cssText = `
-      left: ${5 + Math.random()*88}%;
-      animation-duration: ${2.5 + Math.random()*3}s;
-      animation-delay: ${Math.random()*4}s;
+      left: ${3 + Math.random()*92}%;
+      animation-duration: ${2 + Math.random()*3.5}s;
+      animation-delay: ${Math.random()*5}s;
     `;
     peekInner.appendChild(p);
   }
-  for (let i = 0; i < 10; i++) {
+
+  /* twinkling stars */
+  for (let i = 0; i < 12; i++) {
     const st = document.createElement('span');
     st.className = 'peek-star';
     st.textContent = STARS[Math.floor(Math.random()*STARS.length)];
     st.style.cssText = `
-      left: ${5 + Math.random()*90}%;
-      top: ${10 + Math.random()*75}%;
-      color: ${['#e8718a','#c0395a','#f9c6cf','#f07090'][Math.floor(Math.random()*4)]};
-      font-size: ${7 + Math.random()*9}px;
-      animation-duration: ${1.2 + Math.random()*2}s;
-      animation-delay: ${Math.random()*3}s;
+      left: ${4 + Math.random()*90}%;
+      top: ${8 + Math.random()*78}%;
+      color: ${['#e8718a','#c0395a','#f9c6cf','#f07090','#f0a4b0'][Math.floor(Math.random()*5)]};
+      font-size: ${7 + Math.random()*10}px;
+      animation-duration: ${1 + Math.random()*2.2}s;
+      animation-delay: ${Math.random()*3.5}s;
     `;
     peekInner.appendChild(st);
   }
 
-  /* ── envelope open ── */
+  /* scattered bouncing mini hearts */
+  const SCATTER_POSITIONS = [
+    [12,22],[80,18],[18,65],[85,60],[50,78],[25,45],[72,42],[60,15],[38,55]
+  ];
+  SCATTER_POSITIONS.forEach(([lft,tp], i) => {
+    const h = document.createElement('span');
+    h.className = 'scatter-heart';
+    h.textContent = ['💗','🌸','💖','🌷','💕','🌺'][i % 6];
+    h.style.cssText = `
+      left: ${lft}%; top: ${tp}%;
+      font-size: ${10 + Math.random()*8}px;
+      animation-duration: ${1.8 + Math.random()*2}s;
+      animation-delay: ${0.5 + Math.random()*3}s;
+    `;
+    peekInner.appendChild(h);
+  });
+
+  /* orbit ring — 8 flowers evenly spaced */
+  const orbitRing = document.getElementById('orbitRing');
+  const ORBIT_ITEMS = ['🌸','💗','🌷','💖','🌺','💕','🌼','💓'];
+  ORBIT_ITEMS.forEach((emoji, i) => {
+    const item = document.createElement('span');
+    item.className = 'orbit-item';
+    const angle = (i / ORBIT_ITEMS.length) * 360;
+    const rad = (angle * Math.PI) / 180;
+    const r = 52;
+    const x = 55 + r * Math.cos(rad) - 8;
+    const y = 55 + r * Math.sin(rad) - 8;
+    item.style.cssText = `
+      left: ${x}px; top: ${y}px;
+      font-size: ${i % 2 === 0 ? '13px' : '10px'};
+      counter-rotation: rotate(${-angle}deg);
+      animation: counterSpin 8s linear infinite;
+    `;
+    item.textContent = emoji;
+    orbitRing.appendChild(item);
+  });
+
+  /* canvas interactive particles */
+  const canvas = document.getElementById('peekCanvas');
+  const ctx = canvas.getContext('2d');
+  const particles = [];
+  const SPAWN_EMOJIS = ['🌸','💗','🌷','💖','✦','🌺','💕','🌼','💓','✿'];
+
+  function resizeCanvas() {
+    const rect = peekInner.getBoundingClientRect();
+    canvas.width = rect.width || 200;
+    canvas.height = rect.height || 160;
+  }
+  resizeCanvas();
+  window.addEventListener('resize', resizeCanvas);
+
+  class Particle {
+    constructor(x, y) {
+      this.x = x; this.y = y;
+      this.emoji = SPAWN_EMOJIS[Math.floor(Math.random()*SPAWN_EMOJIS.length)];
+      this.vx = (Math.random() - 0.5) * 3.5;
+      this.vy = -1.5 - Math.random() * 2.5;
+      this.alpha = 1;
+      this.size = 14 + Math.random() * 10;
+      this.rotation = Math.random() * Math.PI * 2;
+      this.rotSpeed = (Math.random() - 0.5) * 0.12;
+      this.life = 1;
+      this.decay = 0.018 + Math.random() * 0.012;
+    }
+    update() {
+      this.x += this.vx;
+      this.y += this.vy;
+      this.vy += 0.05;
+      this.rotation += this.rotSpeed;
+      this.life -= this.decay;
+      this.alpha = this.life;
+    }
+    draw() {
+      ctx.save();
+      ctx.globalAlpha = Math.max(0, this.alpha);
+      ctx.translate(this.x, this.y);
+      ctx.rotate(this.rotation);
+      ctx.font = `${this.size}px serif`;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(this.emoji, 0, 0);
+      ctx.restore();
+    }
+  }
+
+  let animFrame;
+  function animateCanvas() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    for (let i = particles.length - 1; i >= 0; i--) {
+      particles[i].update();
+      particles[i].draw();
+      if (particles[i].life <= 0) particles.splice(i, 1);
+    }
+    animFrame = requestAnimationFrame(animateCanvas);
+  }
+  animateCanvas();
+
+  function spawnParticles(x, y, count) {
+    for (let i = 0; i < count; i++) {
+      particles.push(new Particle(x, y));
+    }
+  }
+
+  canvas.addEventListener('click', (e) => {
+    const rect = canvas.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    spawnParticles(x, y, 10);
+  });
+
+  canvas.addEventListener('mousemove', (e) => {
+    if (e.buttons !== 1) return;
+    const rect = canvas.getBoundingClientRect();
+    spawnParticles(e.clientX - rect.left, e.clientY - rect.top, 3);
+  });
+
+  canvas.addEventListener('touchmove', (e) => {
+    e.preventDefault();
+    const rect = canvas.getBoundingClientRect();
+    const t = e.touches[0];
+    spawnParticles(t.clientX - rect.left, t.clientY - rect.top, 5);
+  }, { passive: false });
+
+  canvas.addEventListener('touchstart', (e) => {
+    const rect = canvas.getBoundingClientRect();
+    const t = e.touches[0];
+    spawnParticles(t.clientX - rect.left, t.clientY - rect.top, 8);
+  });
+
   let opened = false;
   function openEnvelope() {
     if (opened) return;
@@ -582,7 +815,6 @@
     env.classList.add('opened');
     hint.textContent = '✦ with love, just for you ✦';
 
-    // sparkle
     const sp = document.createElement('span');
     sp.className = 'sparkle';
     sp.textContent = '✨';
@@ -592,24 +824,18 @@
     setTimeout(() => {
       card.classList.add('visible');
       btns.classList.add('visible');
+      /* auto-burst particles on open */
+      setTimeout(() => {
+        resizeCanvas();
+        const cx = canvas.width / 2;
+        const cy = canvas.height / 2;
+        for (let b = 0; b < 3; b++) {
+          setTimeout(() => spawnParticles(cx, cy, 12), b * 220);
+        }
+      }, 300);
     }, 600);
   }
 
-  /* ── replay ── */
-  function replayEnvelope() {
-    const env  = document.getElementById('envelope');
-    const card = document.getElementById('msgCard');
-    const btns = document.getElementById('btnRow');
-    const hint = document.getElementById('hintText');
-
-    card.classList.remove('visible');
-    btns.classList.remove('visible');
-    env.classList.remove('opened');
-    opened = false;
-    hint.textContent = 'tap the envelope to open';
-  }
-
-  /* ── kiss confetti ── */
   function sendKiss() {
     const wrap = document.getElementById('confetti');
     const colors = ['#f9c6cf','#e8718a','#c0395a','#f48fb1','#fce4ec','#fff'];
@@ -633,7 +859,6 @@
       setTimeout(() => c.remove(), 2200);
     }
 
-    /* kiss emoji burst */
     const k = document.createElement('div');
     k.style.cssText = `
       position:fixed; top:45%; left:50%; transform:translate(-50%,-50%);
@@ -643,6 +868,48 @@
     k.textContent = '😘';
     document.body.appendChild(k);
     setTimeout(() => k.remove(), 1100);
+  }
+
+  function sendHug() {
+    /* warm confetti burst */
+    const wrap = document.getElementById('confetti');
+    const colors = ['#f9c6cf','#e8718a','#fce4ec','#f48fb1','#fff','#f0a4b0'];
+    for (let i = 0; i < 45; i++) {
+      const c = document.createElement('div');
+      c.className = 'cf';
+      const x = (Math.random()-0.5)*180 + 'vw';
+      const y = -(20 + Math.random()*70) + 'vh';
+      c.style.cssText = `
+        left: ${15+Math.random()*70}%;
+        top: ${25+Math.random()*40}%;
+        background: ${colors[Math.floor(Math.random()*colors.length)]};
+        border-radius: ${Math.random()>0.5 ? '50%' : '3px'};
+        width: ${6+Math.random()*8}px;
+        height: ${6+Math.random()*8}px;
+        --tx: translate(${x}, ${y});
+        animation: cfFly ${0.9+Math.random()*1.1}s ease forwards;
+        animation-delay: ${Math.random()*0.4}s;
+      `;
+      wrap.appendChild(c);
+      setTimeout(() => c.remove(), 2400);
+    }
+
+    /* big hug emoji pop */
+    const overlay = document.createElement('div');
+    overlay.className = 'hug-overlay';
+    const hugEmoji = document.createElement('div');
+    hugEmoji.className = 'hug-emoji';
+    hugEmoji.textContent = '🤗';
+    overlay.appendChild(hugEmoji);
+    document.body.appendChild(overlay);
+
+    /* sweet text */
+    const txt = document.createElement('div');
+    txt.className = 'hug-text';
+    txt.textContent = 'sending you the warmest hug 💗';
+    document.body.appendChild(txt);
+
+    setTimeout(() => { overlay.remove(); txt.remove(); }, 1500);
   }
 </script>
 </body>
